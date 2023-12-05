@@ -1,0 +1,51 @@
+name: Sync Repository B Changes
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Run every 5 minutes
+
+jobs:
+  sync_changes:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository PK
+      uses: actions/checkout@v4
+      with:
+        repository: https://github.com/Atul-source/PK.git
+
+    - name: Checkout Repository tdf
+      uses: actions/checkout@v4
+      with:
+        repository: https://github.com/Atul-source/tdf.git
+        ref: 'main' # Or the default branch of Repository B
+        path: 'tdf'
+      
+    - name: Setup Git User
+      run: |
+        git config --global user.name Atul-source
+        git config --global user.email "atulprajapati6031@gmail.com"
+
+    - name: Sync Changes from Repository tdf
+      run: |
+        cd tdf
+        git log --since="5 minutes ago" --pretty=format:"%H %s" > changes.txt
+        if [ -s changes.txt ]; then
+          git checkout -b tdf-changes-$(date +'%Y%m%d-%H%M%S')
+          cp -r . ../
+          cd ..
+          git add .
+          git commit -m "Sync changes from Repository tdf ($(date +'%Y-%m-%d %H:%M:%S'))"
+          git push -u origin tdf-changes-$(date +'%Y%m%d-%H%M%S')
+        else
+          echo "No changes in Repository B in the last 5 minutes"
+          exit 0
+        fi
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: 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
+        commit-message: "Sync changes from Repository B ($(date +'%Y-%m-%d %H:%M:%S'))"
+        title: "Sync changes from Repository B ($(date +'%Y-%m-%d %H:%M:%S'))"
+        base: 'main' # Or the default branch of Repository Ao
