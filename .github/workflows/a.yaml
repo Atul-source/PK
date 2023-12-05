@@ -46,6 +46,6 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       with:
         token: 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
-        commit-message: "Sync changes from Repository B ($(date +'%Y-%m-%d %H:%M:%S'))"
-        title: "Sync changes from Repository B ($(date +'%Y-%m-%d %H:%M:%S'))"
+        commit-message: "Sync changes from Repository tdf ($(date +'%Y-%m-%d %H:%M:%S'))"
+        title: "Sync changes from Repository tdf ($(date +'%Y-%m-%d %H:%M:%S'))"
         base: 'main' # Or the default branch of Repository Ao
