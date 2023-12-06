@@ -25,7 +25,7 @@ jobs:
           git config --global --add --bool push.autoSetupRemote true
 
       - name: Checkout repository B
-        uses: actions/checkout@v4
+       uses: actions/checkout@v4
         with:
           repository: Atul-source/tdf # Replace with the repository B's owner and name
           path: repository-B # Specify the directory for repository B
@@ -61,7 +61,15 @@ jobs:
       - name: Push changes to repository A
         run: |
           cd repository-A
-          git push origin $branch_name --force
-        env:
-          GITHUB_TOKEN: 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
+          git remote set-url origin https://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@github.com/Atul-source/PK.git
+          git push origin $branch_name
       
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: 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
+          commit-message: "Merge changes from repository B"
+          branch: $branch_name
+          title: "Merge changes from repository B"
+          body: "This pull request merges the changes from repository B into repository A."
+          draft: false
