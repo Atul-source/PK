@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository A
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/Atul-source/PK.git # Replace with the repository A's owner and name
+          repository: Atul-source/PK # Replace with the repository A's owner and name
           ref: main # Replace with the branch name of repository A where the pull request should be created
           path: repository-A # Specify the directory for repository A
       
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout repository B
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/Atul-source/tdf.git # Replace with the repository B's owner and name
+          repository: Atul-source/tdf # Replace with the repository B's owner and name
           path: repository-B # Specify the directory for repository B
       
       - name: Get merged commits in the last 5 minutes
