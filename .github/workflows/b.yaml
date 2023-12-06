@@ -1,8 +1,10 @@
 name: Sync Changes
 
 on:
-  schedule:
-    - cron: "*/2 * * * *"
+  pull_request: {}
+  push:
+    branches:
+      - main
 
 jobs:
   create_pull_request:
