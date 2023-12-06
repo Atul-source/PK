@@ -41,7 +41,7 @@ jobs:
       - name: Apply merged commits to repository A
         run: |
           cd repository-A
-
+          branch_name=$(date +'%Y%m%d')-synced-changes
           while IFS= read -r commit; do
             commit_hash=$(echo $commit | awk '{print $1}')
             author_name=$(echo $commit | awk '{print $2}')
@@ -63,7 +63,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Merge changes from repository B
-          branch: $(date +'%Y%m%d')-sync-changes
+          branch: $branch_name
           title: Merge changes from repository B
           body: This pull request merges the changes from repository B into repository A.
           draft: false
