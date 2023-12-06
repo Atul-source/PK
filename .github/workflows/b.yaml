@@ -55,9 +55,6 @@ jobs:
       - name: Push changes to repository A
         run: >
           cd repository-A
-
-          git remote set-url origin https://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@github.com/Atul-source/PK.git
-
           git push origin $branch_name --force
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
