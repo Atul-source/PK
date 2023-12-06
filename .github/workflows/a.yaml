@@ -72,4 +72,4 @@ jobs:
           title: "Merge changes from repository B"
           body: "This pull request merges the changes from repository B into repository A."
           draft: false
-          repository: https://github.com/Atul-source/PK.git # Replace with the repository A's owner and name
+          repository: Atul-source/PK # Replace with the repository A's owner and name
