@@ -27,7 +27,7 @@ jobs:
           path: repository-B
       - name: Get merged commits in the last 5 minutes
         id: merged_commits
-        run: >
+        run: |
           cd repository-B
 
           git log --merges --since="5 minutes ago" --pretty=format:"%h %an %ad %s" > ../merged_commits.txt
@@ -39,7 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: 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
       - name: Apply merged commits to repository A
-        run: >
+        run: |
           cd repository-A
 
           while IFS= read -r commit; do
@@ -53,7 +53,7 @@ jobs:
             git commit --amend --no-edit --date="$author_date" --author="$author_name <$author_name@users.noreply.github.com>" --all
           done < ../merged_commits.txt
       - name: Push changes to repository A
-        run: >
+        run: |
           cd repository-A
           git push origin $branch_name --force
       - name: Create Pull Request
