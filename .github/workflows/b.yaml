@@ -9,7 +9,6 @@ on:
 jobs:
   create_pull_request:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository A
         uses: actions/checkout@v4
