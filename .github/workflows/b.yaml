@@ -51,7 +51,7 @@ jobs:
             git cherry-pick $commit_hash
 
             # git commit --amend --no-edit --date="$author_date" --author="$author_name <$author_name@users.noreply.github.com>" --all
-            #done < ../merged_commits.txt
+            done < ../merged_commits.txt
           #- name: Push changes to repository A
           #run: |
           #cd repository-A
