@@ -55,7 +55,7 @@ jobs:
       - name: Push changes to repository A
         run: |
           cd repository-A
-          #          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/Atul-source/PK.git
+          git remote set-url origin https://${{ secrets.TOKEN }}@github.com/Atul-source/PK.git
           git push origin $branch_name --force
           git remote -v
       - name: Create Pull Request
