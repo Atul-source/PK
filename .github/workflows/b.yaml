@@ -68,4 +68,4 @@ jobs:
           title: Merge changes from repository B
           body: This pull request merges the changes from repository B into repository A.
           draft: false
-
+          path: repository-A
