@@ -55,13 +55,13 @@ jobs:
       - name: Push changes to repository A
         run: |
           cd repository-A
-          git remote set-url origin https://${{ secrets.TOKEN }}@github.com/Atul-source/PK.git
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/Atul-source/PK.git
           git push origin $branch_name --force
           git remote -v
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Merge changes from repository B
           branch: $branch_name
           title: Merge changes from repository B
