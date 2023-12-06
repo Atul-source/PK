@@ -63,7 +63,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Merge changes from repository B
-          branch: $branch_name
+          branch: frp
           title: Merge changes from repository B
           body: This pull request merges the changes from repository B into repository A.
           draft: false
