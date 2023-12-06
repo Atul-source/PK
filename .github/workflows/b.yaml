@@ -31,13 +31,13 @@ jobs:
           cd repository-B
 
           git log --merges --since="5 minutes ago" --pretty=format:"%h %an %ad %s" > ../merged_commits.txt
-      - name: Create and checkout new branch in repository A
-        run: |
-          cd repository-A
-          branch_name=$(date +'%Y%m%d')-merged-changes
-          git checkout -b $branch_name
-        env:
-          GITHUB_TOKEN: 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
+          #      - name: Create and checkout new branch in repository A
+          #run: |
+          #cd repository-A
+          #branch_name=$(date +'%Y%m%d')-merged-changes
+          #git checkout -b $branch_name
+          #env:
+          #GITHUB_TOKEN: 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
       - name: Apply merged commits to repository A
         run: |
           cd repository-A
@@ -52,18 +52,18 @@ jobs:
 
             git commit --amend --no-edit --date="$author_date" --author="$author_name <$author_name@users.noreply.github.com>" --all
           done < ../merged_commits.txt
-      - name: Push changes to repository A
-        run: |
-          cd repository-A
-          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/Atul-source/PK.git
-          git push origin $branch_name --force
-          git remote -v
+          #- name: Push changes to repository A
+          #run: |
+          #cd repository-A
+          #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/Atul-source/PK.git
+          #git push origin $branch_name --force
+          #git remote -v
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Merge changes from repository B
-          branch: $branch_name
+          branch: $(date +'%Y%m%d')-sync-changes
           title: Merge changes from repository B
           body: This pull request merges the changes from repository B into repository A.
           draft: false
