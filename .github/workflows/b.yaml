@@ -61,7 +61,7 @@ jobs:
       - name: Push changes to repository A
         run: |
           cd repository-A
-          git push origin $branch_name
+          git push origin $branch_name --force
         env:
           GITHUB_TOKEN: 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
       
