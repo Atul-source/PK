@@ -21,11 +21,10 @@ jobs:
           git config --global --add --bool push.autoSetupRemote true
       - name: Get merged commits in the last 5 minutes
         id: merged_commits
-        run: >
+        run: |
           git clone https://github.com/Atul-source/tdf.git
           cd tdf
-          git log --since="5 minutes ago" --pretty=format:"%h %an %ad
-          %s" > ../commit_hash.txt
+          git log --since="5 minutes ago" --pretty=format:"%h %an %ad %s" > ../commit_hash.txt
           git format-patch -1 $(cat ../commit_hash.txt) --output-directory=../patch
       - name: Apply merged commits to repository A
         run: |
