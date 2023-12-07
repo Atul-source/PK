@@ -1,3 +1,4 @@
+
 name: Sync Changes from tdf
 'on':
   pull_request: {}
@@ -24,7 +25,7 @@ jobs:
         run: |
           git clone https://github.com/Atul-source/tdf.git
           cd tdf
-          git log --pretty=format:'%h %an %ad %s' > ../commit_hash.txt
+          git log --after="2023-01-12" --pretty=format:'%h %an %ad %s' > ../commit_hash.txt
           git format-patch -1 $(cat ../commit_hash.txt) --output-directory=../patch
       - name: Apply merged commits to repository A
         run: |
