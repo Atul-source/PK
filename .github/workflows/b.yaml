@@ -1,6 +1,5 @@
----
 name: Sync Changes from tdf
-on:
+'on':
   pull_request: {}
   push:
     branches:
@@ -20,45 +19,28 @@ jobs:
           git config --global user.name "Atul-source"
           git config --global user.email "atulprajapati6031@gmail.com"
           git config --global --add --bool push.autoSetupRemote true
-      - name: Checkout repository B
-        uses: actions/checkout@v4
-        with:
-          repository: Atul-source/tdf
-          path: repository-B
       - name: Get merged commits in the last 5 minutes
         id: merged_commits
-        run: |
-          cd repository-B
-
-          git log --merges --since="5 minutes ago" --pretty=format:"%h %an %ad %s" > ../merged_commits.txt
+        run: >
+          git clone https://github.com/Atul-source/tdf.git
+          cd tdf
+          git log --since="5 minutes ago" --pretty=format:"%h %an %ad
+          %s" > ../commit_hash.txt
+          git format-patch -1 $(cat ../commit_hash.txt) --output-directory=../patch
       - name: Apply merged commits to repository A
         run: |
           cd repository-A
-          branch_name=$(date +'%Y%m%d')-synced-changes
-          while IFS= read -r commit; do
-            commit_hash=$(echo $commit | awk '{print $1}')
-            author_name=$(echo $commit | awk '{print $2}')
-            author_date=$(echo $commit | awk '{print $3, $4, $5, $6}')
-            subject=$(echo $commit | awk '{ $1=$2=$3=$4=""; print $0 }' | sed -e 's/^[[:space:]]*//')
-
-            git cherry-pick $commit_hash
-
-            #git commit --amend --no-edit --date="$author_date" --author="$author_name <$author_name@users.noreply.github.com>" --all
-            done < ../merged_commits.txt
-            cat ../merged_commits.txt
-          #- name: Push changes to repository A
-          #run: |
-          #cd repository-A
-          #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/Atul-source/PK.git
-          #git push origin $branch_name --force
-          #git remote -v
+          git apply ../patch/*.patch
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: '${{ secrets.GITHUB_TOKEN }}'
           commit-message: Merge changes from repository B
           title: Merge changes from repository B
-          body: This pull request merges the changes from repository B into repository A.
+          body: >-
+            This pull request merges the changes from repository B into
+            repository A.
           draft: false
           path: repository-A
           base: main
+
