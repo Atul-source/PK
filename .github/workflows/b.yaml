@@ -1,46 +1,26 @@
+name: Create Pull Request
+on:
+  schedule:
+    - cron: "*/5 * * * *"
 
-name: Sync Changes from tdf
-'on':
-  pull_request: {}
-  push:
-    branches:
-      - main
 jobs:
   create_pull_request:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository A
-        uses: actions/checkout@v4
-        with:
-          repository: Atul-source/PK
-          ref: main
-          path: repository-A
-      - name: Set up Git
-        run: |
-          git config --global user.name "Atul-source"
-          git config --global user.email "atulprajapati6031@gmail.com"
-          git config --global --add --bool push.autoSetupRemote true
-      - name: Get merged commits in the last 5 minutes
-        id: merged_commits
-        run: |
-          git clone https://github.com/Atul-source/tdf.git
-          cd tdf
-          git log --since='5 minutes ago' --pretty=format:'%h %an %ad %s' > ../commit_hash.txt
-          git format-patch -1 $(cat ../commit_hash.txt) --output-directory=../patch
-      - name: Apply merged commits to repository A
-        run: |
-          cd repository-A
-          git apply ../patch/*.patch
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
-          commit-message: Merge changes from repository B
-          title: Merge changes from repository B
-          body: >-
-            This pull request merges the changes from repository B into
-            repository A.
-          draft: false
-          path: repository-A
-          base: main
+        uses: actions/checkout@v2
 
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.REPO_B_TOKEN }}
+          commit-message: "Automated Pull Request from Repository A"
+          branch: "main"
+          title: "Changes from Repository A"
+          body: "This pull request contains changes merged into Repository A's main branch."
+
+          # Provide the details of repository B
+          repository: "Atul-source/tdf"
+          base: "main"
+          head: "PK:main"
