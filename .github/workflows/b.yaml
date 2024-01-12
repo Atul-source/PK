@@ -18,8 +18,4 @@ jobs:
           branch: "main"
           title: "Changes from Repository A"
           body: "This pull request contains changes merged into Repository A's main branch."
-
-          # Provide the details of repository B
-          repository: "Atul-source/tdf"
           base: "main"
-          head: "PK:main"
